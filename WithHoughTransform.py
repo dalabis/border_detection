@@ -9,10 +9,12 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 
 data = pd.read_table(
-    'input/three_examples/3.txt', delim_whitespace=True, names=('x', 'y'))
+    'input/three_examples/1.txt', delim_whitespace=True, names=('x', 'y'))
 
-#plt.plot(data['x'], data['y'], '.')
-#plt.show()
+plt.plot(data['x'], data['y'], '.')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
 
 # Построение пиксельного изображения
 hist = np.histogram2d(data['x'], data['y'], bins=200)
@@ -52,6 +54,8 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 plt.plot(rho, theta, '.')
+plt.xlabel('r, pix')
+plt.ylabel('theta, rad')
 plt.show()
 
 # Разбиение кривых на четыре класса
@@ -59,6 +63,8 @@ X = np.column_stack((rho, [i * 100 for i in theta]))
 AC = AgglomerativeClustering(n_clusters=4).fit(X)
 
 sns.scatterplot(x=rho, y=theta, hue=AC.labels_)
+plt.xlabel('r, pix')
+plt.ylabel('theta, rad')
 plt.show()
 
 # Из каждого класса берется первая прямая с начала массива lines, потому что
@@ -168,4 +174,6 @@ plt.plot(
     [result_final[1, 0], result_final[1, 1], result_final[1, 2],
     result_final[1, 3], result_final[1, 0]]
 )
+plt.xlabel('x')
+plt.ylabel('y')
 plt.show()
