@@ -20,13 +20,14 @@ df = pd.DataFrame(
         ['x_in_' + str(i) for i in range(point_num)] +
         ['y_in_' + str(i) for i in range(point_num)] +
         ['x_out_' + str(i) for i in range(4)] +
-        ['y_out_' + str(i) for i in range(4)]
+        ['y_out_' + str(i) for i in range(4)] +
+        ['height', 'width', 'center_x', 'center_y', 'rotation']
 )
 
 for i, rect in enumerate(rect_gen):
     if i >= rectangle_num:
         break
 
-    df.loc[i] = rect[0].tolist() + rect[1].tolist() + rect[2].tolist() + rect[3].tolist()
+    df.loc[i] = rect[0].tolist() + rect[1].tolist() + rect[2].tolist() + rect[3].tolist() + rect[4]
 
-df.to_csv(r'D:\Bosch\rectangle_set_1000_30_points.csv')
+df.to_csv(r'D:\Bosch\input\rectangle_sets\rectangle_set_1000_30_points.csv')

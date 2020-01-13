@@ -114,8 +114,10 @@ def rectangle_gen(
         point_num = int(random.uniform(point_num_range[0], point_num_range[1]))
         random_radius = random.uniform(random_radius_range[0], random_radius_range[1])
 
+        param = [height, width, center_x, center_y, rotation]
+
         x, y = rectangle_transform(height, width, center_x, center_y, rotation)
         x_split, y_split = rectangle_split(x, y, point_num)
         x_rand, y_rand = rectangle_random(x_split, y_split, random_radius)
 
-        yield x_rand, y_rand, x, y
+        yield x_rand, y_rand, x, y, param
