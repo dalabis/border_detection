@@ -1,8 +1,9 @@
 import numpy as np
 import copy
+from matplotlib import pyplot as plt
 
 
-def kernel_hough_tramsform(points, delta_rho, delta_theta, kernel_size):
+def kernel_hough_tramsform(points, delta_rho, delta_theta, kernel_size, mode):
     centroid_x = np.sum(points[:, 0]) // points.shape[0]
     centroid_y = np.sum(points[:, 1]) // points.shape[0]
 
@@ -10,30 +11,54 @@ def kernel_hough_tramsform(points, delta_rho, delta_theta, kernel_size):
     points_0[:, 0] = points[:, 0] - centroid_x
     points_0[:, 1] = points[:, 1] - centroid_y
 
+    points_1 = copy.copy(points)
+    points_1[:, 0] = - points_0[:, 1]
+    points_1[:, 1] = points_0[:, 0]
+
     points_rho = np.sqrt(points_0[:, 0] ** 2 + points_0[:, 1] ** 2)
-    min_rho = -np.max(points_rho) - delta_rho
-    max_rho = np.max(points_rho) + delta_rho
+    min_rho = - np.max(points_rho)
+    max_rho = np.max(points_rho)
     num_rho = int((max_rho - min_rho) / delta_rho)
     rho = np.array([min_rho + i * delta_rho for i in range(num_rho)])
 
-    # points_theta = np.arctan(points[:, 0] / points[:, 1]) + np.pi / 2
-    min_theta = delta_theta
-    max_theta = np.pi
-    num_theta = int((max_theta - min_theta) / delta_theta)
-    theta = np.array([min_theta + i * delta_theta for i in range(num_theta)])
+    if mode == 1:
+        # points_theta = np.arctan(points[:, 0] / points[:, 1]) + np.pi / 2
+        min_theta = - np.pi / 2
+        max_theta = 3 * np.pi / 2
+        num_theta = int((max_theta - min_theta) / delta_theta)
+        theta = np.array([min_theta + i * delta_theta for i in range(num_theta)])
+    elif mode == 0:
+        min_theta = 0
+        max_theta = np.pi
+        num_theta = int((max_theta - min_theta) / delta_theta)
+        theta = np.array([min_theta + i * delta_theta for i in range(num_theta)])
 
     acc_array = np.zeros((num_rho, num_theta))
 
     for i in range(num_rho):
         for j in range(num_theta):
-            a = np.cos(theta[j]) / np.sin(theta[j])
-            b = 1
-            c = -rho[i] / np.sin(theta[j])
-            x_0 = points_0[:, 0]
-            y_0 = points_0[:, 1]
-            dist = np.abs(a * x_0 + b * y_0 + c) / np.sqrt(a ** 2 + b ** 2)
-            acc_array[i, j] = np.sum(1 / (2 * np.pi * kernel_size ** 2) * \
-                np.exp(-(dist ** 2) / (2 * kernel_size ** 2)))
+            if np.pi / 4 - np.pi < theta[j] < 3 * np.pi / 4 - np.pi or \
+               np.pi / 4 < theta[j] < 3 * np.pi / 4 or \
+               np.pi / 4 + np.pi < theta[j] < 3 * np.pi / 4 + np.pi:
+                a = np.cos(theta[j]) / np.sin(theta[j])
+                b = 1
+                c = -rho[i] / np.sin(theta[j])
+                x_0 = points_0[:, 0]
+                y_0 = points_0[:, 1]
+                dist = np.abs(a * x_0 + b * y_0 + c) / np.sqrt(a ** 2 + b ** 2)
+                acc_array[i, j] = np.sum(1 / (2 * np.pi * kernel_size ** 2) * \
+                                         np.exp(-(dist ** 2) / (
+                                                 2 * kernel_size ** 2)))
+            else:
+                a = np.cos(theta[j] + np.pi / 2) / np.sin(theta[j] + np.pi / 2)
+                b = 1
+                c = -rho[i] / np.sin(theta[j] + np.pi / 2)
+                x_0 = points_1[:, 0]
+                y_0 = points_1[:, 1]
+                dist = np.abs(a * x_0 + b * y_0 + c) / np.sqrt(a ** 2 + b ** 2)
+                acc_array[i, j] = np.sum(1 / (2 * np.pi * kernel_size ** 2) * \
+                                         np.exp(-(dist ** 2) / (
+                                                 2 * kernel_size ** 2)))
 
     # where_are_NaNs = np.isnan(acc_array)
     # acc_array[where_are_NaNs] = 0
@@ -46,8 +71,8 @@ def kernel_hough_tramsform(points, delta_rho, delta_theta, kernel_size):
 
 
 def get_lines_probabilistic(points, rho, theta, kernel_size):
-    min_gap = kernel_size * 5
-    trash_hold = 0.5
+    min_gap = kernel_size * 2
+    trash_hold = 0.1
 
     centroid_x = np.sum(points[:, 0]) // points.shape[0]
     centroid_y = np.sum(points[:, 1]) // points.shape[0]
@@ -56,43 +81,85 @@ def get_lines_probabilistic(points, rho, theta, kernel_size):
     points_0[:, 0] = points[:, 0] - centroid_x
     points_0[:, 1] = points[:, 1] - centroid_y
 
-    r = np.array([i for i in range(-100, 100)])
-    x = r * np.cos(theta + np.pi/2) + rho / np.cos(theta)
-    y = r * np.sin(theta + np.pi/2)
+    if np.pi / 4 - np.pi < theta < 3 * np.pi / 4 - np.pi or \
+       np.pi / 4 < theta < 3 * np.pi / 4 or \
+       np.pi / 4 + np.pi < theta < 3 * np.pi / 4 + np.pi:
+        x = np.array([i for i in range(-1000, 1000)])
+        a = np.cos(theta) / np.sin(theta)
+        b = 1
+        c = - rho / np.sin(theta)
+        y = - a / b * x - c / b
 
-    acc = np.zeros(r.shape[0])
-
-    for i in range(r.shape[0]):
         x_0 = points_0[:, 0]
         y_0 = points_0[:, 1]
 
-        dist = np.sqrt((x[i] - x_0) ** 2 + (y[i] - y_0) ** 2)
-        acc[i] = np.sum(1 / (2 * np.pi * kernel_size ** 2) * \
-            np.exp(-(dist ** 2) / (2 * kernel_size ** 2)))
+        acc = np.zeros(x.shape[0])
 
-    lines = []
-    line_success = 0
-    for i in range(acc.shape[0]):
-        if acc[i] > trash_hold * np.max(acc) and line_success == 0:
-            line_success = 1
-            x_1 = x[i] + centroid_x
-            y_1 = y[i] + centroid_y
-        elif acc[i] < trash_hold * np.max(acc) and line_success == 1:
-            line_success = 0
-            x_2 = x[i] + centroid_x
-            y_2 = y[i] + centroid_y
-            lines.append([x_1, x_2, y_1, y_2])
-        elif i == acc.shape[0] - 1 and line_success == 1:
-            x_2 = x[i] + centroid_x
-            y_2 = y[i] + centroid_y
-            lines.append([x_1, x_2, y_1, y_2])
+        for i in range(x.shape[0]):
+            dist = np.sqrt((x[i] - x_0) ** 2 + (y[i] - y_0) ** 2)
+            acc[i] = np.sum(1 / (2 * np.pi * kernel_size ** 2) * \
+                            np.exp(-(dist ** 2) / (2 * kernel_size ** 2)))
 
-    lines_out = []
-    for i in lines:
-        if np.sqrt((i[0] - i[1]) ** 2 + (i[2] - i[3]) ** 2) > min_gap:
-            lines_out.append(i)
+        lines = []
+        line_success = 0
+        for i in range(acc.shape[0]):
+            if acc[i] > trash_hold * np.max(acc) and line_success == 0:
+                line_success = 1
+                x_1 = x[i] + centroid_x
+                y_1 = y[i] + centroid_y
+            elif acc[i] < trash_hold * np.max(acc) and line_success == 1:
+                line_success = 0
+                x_2 = x[i] + centroid_x
+                y_2 = y[i] + centroid_y
+                lines.append([x_1, x_2, y_1, y_2])
+            elif i == acc.shape[0] - 1 and line_success == 1:
+                x_2 = x[i] + centroid_x
+                y_2 = y[i] + centroid_y
+                lines.append([x_1, x_2, y_1, y_2])
+    else:
+        points_1 = copy.copy(points)
+        points_1[:, 0] = - points_0[:, 1]
+        points_1[:, 1] = points_0[:, 0]
 
-    return lines_out
+        x = np.array([i for i in range(-1000, 1000)])
+        a = np.cos(theta + np.pi / 2) / np.sin(theta + np.pi / 2)
+        b = 1
+        c = - rho / np.sin(theta + np.pi / 2)
+        y = - a / b * x - c / b
+
+        x_0 = points_1[:, 0]
+        y_0 = points_1[:, 1]
+
+        acc = np.zeros(x.shape[0])
+
+        for i in range(x.shape[0]):
+            dist = np.sqrt((x[i] - x_0) ** 2 + (y[i] - y_0) ** 2)
+            acc[i] = np.sum(1 / (2 * np.pi * kernel_size ** 2) * \
+                            np.exp(-(dist ** 2) / (2 * kernel_size ** 2)))
+
+        lines = []
+        line_success = 0
+        for i in range(acc.shape[0]):
+            if acc[i] > trash_hold * np.max(acc) and line_success == 0:
+                line_success = 1
+                x_1 = y[i] + centroid_x
+                y_1 = - x[i] + centroid_y
+            elif acc[i] < trash_hold * np.max(acc) and line_success == 1:
+                line_success = 0
+                x_2 = y[i] + centroid_x
+                y_2 = - x[i] + centroid_y
+                lines.append([x_1, x_2, y_1, y_2])
+            elif i == acc.shape[0] - 1 and line_success == 1:
+                x_2 = y[i] + centroid_x
+                y_2 = - x[i] + centroid_y
+                lines.append([x_1, x_2, y_1, y_2])
+
+    #lines_out = []
+    #for i in lines:
+    #    if np.sqrt((i[0] - i[1]) ** 2 + (i[2] - i[3]) ** 2) > min_gap:
+    #        lines_out.append(i)
+
+    return lines
 
 
 def kernel_hough_transforn_circles(
@@ -160,52 +227,3 @@ def kernel_hough_transforn_circles(
     # rho += r_0 * np.cos(theta_0 - theta - np.pi / 2)
 
     return acc_array, x, y, r, centroid_x, centroid_y
-
-def get_lines_probabilistic(points, rho, theta, kernel_size):
-    min_gap = kernel_size * 5
-    trash_hold = 0.5
-
-    centroid_x = np.sum(points[:, 0]) // points.shape[0]
-    centroid_y = np.sum(points[:, 1]) // points.shape[0]
-
-    points_0 = copy.copy(points)
-    points_0[:, 0] = points[:, 0] - centroid_x
-    points_0[:, 1] = points[:, 1] - centroid_y
-
-    r = np.array([i for i in range(-100, 100)])
-    x = r * np.cos(theta + np.pi/2) + rho / np.cos(theta)
-    y = r * np.sin(theta + np.pi/2)
-
-    acc = np.zeros(r.shape[0])
-
-    for i in range(r.shape[0]):
-        x_0 = points_0[:, 0]
-        y_0 = points_0[:, 1]
-
-        dist = np.sqrt((x[i] - x_0) ** 2 + (y[i] - y_0) ** 2)
-        acc[i] = np.sum(1 / (2 * np.pi * kernel_size ** 2) * \
-            np.exp(-(dist ** 2) / (2 * kernel_size ** 2)))
-
-    lines = []
-    line_success = 0
-    for i in range(acc.shape[0]):
-        if acc[i] > trash_hold * np.max(acc) and line_success == 0:
-            line_success = 1
-            x_1 = x[i] + centroid_x
-            y_1 = y[i] + centroid_y
-        elif acc[i] < trash_hold * np.max(acc) and line_success == 1:
-            line_success = 0
-            x_2 = x[i] + centroid_x
-            y_2 = y[i] + centroid_y
-            lines.append([x_1, x_2, y_1, y_2])
-        elif i == acc.shape[0] - 1 and line_success == 1:
-            x_2 = x[i] + centroid_x
-            y_2 = y[i] + centroid_y
-            lines.append([x_1, x_2, y_1, y_2])
-
-    lines_out = []
-    for i in lines:
-        if np.sqrt((i[0] - i[1]) ** 2 + (i[2] - i[3]) ** 2) > min_gap:
-            lines_out.append(i)
-
-    return lines_out

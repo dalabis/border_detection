@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4de9ac0c-d0df-44f3-91a7-d564a227f8a6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/RectangleGenerator/CircleGenerator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Bosch.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Bosch.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Admin.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RectangleGenerator/RectangleGenerator.py" beforeDir="false" afterPath="$PROJECT_DIR$/RectangleGenerator/RectangleGenerator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RectangleGenerator/RectangleGenerator_set_generation.py" beforeDir="false" afterPath="$PROJECT_DIR$/RectangleGenerator/RectangleGenerator_set_generation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RectangleGenerator/RectangleGenerator_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/RectangleGenerator/RectangleGenerator_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input/rectangle_sets/rectangle_set_1000_30_points.csv" beforeDir="false" afterPath="$PROJECT_DIR$/input/rectangle_sets/rectangle_set_1000_30_points.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyHoughTransform.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyHoughTransform.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyHoughTransform_test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/MyHoughTransform_test2.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,6 +25,7 @@
   </component>
   <component name="ProjectId" id="1T1VTo6eaO35dTU3tzztSMeNi6k" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -44,7 +41,7 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.MyHoughTransform_test2">
-    <configuration name="MyHoughTransform_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="MyHoughTransform" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Bosch" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -56,7 +53,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MyHoughTransform_test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MyHoughTransform.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -86,27 +83,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="NN_2" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Bosch" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NN_2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="NN_output_2" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Bosch" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -128,7 +104,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="NN_output_main" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="curvature_experiment" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Bosch" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -140,7 +116,28 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NN_output_main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/curvature_experiment.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="multi_pass_segmentation" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Bosch" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/multi_pass_segmentation.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -152,10 +149,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.MyHoughTransform_test2" />
+        <item itemvalue="Python.multi_pass_segmentation" />
+        <item itemvalue="Python.curvature_experiment" />
+        <item itemvalue="Python.MyHoughTransform" />
         <item itemvalue="Python.NN_output_2" />
-        <item itemvalue="Python.MyHoughTransform_test" />
-        <item itemvalue="Python.NN_output_main" />
-        <item itemvalue="Python.NN_2" />
       </list>
     </recent_temporary>
   </component>
@@ -184,5 +181,33 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/multi_pass_segmentation.py</url>
+          <line>270</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/multi_pass_segmentation.py</url>
+          <line>100</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/multi_pass_segmentation.py</url>
+          <line>79</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
